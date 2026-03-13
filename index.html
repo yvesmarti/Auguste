@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Auguste Recycleur - Ressourcerie associative à Périers-en-Auge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:wght@400;500;700&family=Satisfy&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --color-primary: #8B2635;
+            --color-secondary: #D4A574;
+            --color-accent: #2C5F2D;
+            --color-cream: #F5F1E8;
+            --color-dark: #2C241B;
+        }
+        body { font-family: 'DM Sans', sans-serif; background-color: var(--color-cream); color: var(--color-dark); }
+        .font-display { font-family: 'Abril Fatface', cursive; }
+        .font-handwriting { font-family: 'Satisfy', cursive; }
+        .texture-paper {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+        .vintage-border { border: 3px solid var(--color-dark); box-shadow: 4px 4px 0px var(--color-primary); position: relative; }
+        .vintage-border::before { content: ''; position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border: 1px solid var(--color-secondary); pointer-events: none; }
+        .btn-vintage { background: var(--color-primary); color: white; border: 2px solid var(--color-dark); box-shadow: 4px 4px 0px var(--color-dark); transition: all 0.2s; position: relative; overflow: hidden; }
+        .btn-vintage:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--color-dark); }
+        .btn-vintage:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--color-dark); }
+        .btn-secondary { background: var(--color-secondary); color: var(--color-dark); }
+        .stamp { display: inline-block; border: 3px solid var(--color-primary); border-radius: 50%; padding: 0.5rem 1rem; transform: rotate(-5deg); color: var(--color-primary); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; position: relative; }
+        .stamp::after { content: ''; position: absolute; top: 2px; left: 2px; right: 2px; bottom: 2px; border: 1px solid var(--color-primary); border-radius: 50%; }
+        .halftone { background-image: radial-gradient(circle, var(--color-primary) 1px, transparent 1px); background-size: 8px 8px; opacity: 0.1; }
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+        .service-card { background: white; border: 2px solid var(--color-dark); position: relative; transition: transform 0.3s; }
+        .service-card:hover { transform: translateY(-5px); }
+        .service-card::before { content: ''; position: absolute; top: 10px; left: 10px; right: -10px; bottom: -10px; background: var(--color-secondary); z-index: -1; border: 2px solid var(--color-dark); }
+        .ticket { background: white; border: 2px dashed var(--color-dark); position: relative; mask-image: radial-gradient(circle at 0 50%, transparent 10px, black 10px), radial-gradient(circle at 100% 50%, transparent 10px, black 10px); mask-position: 0 0, 0 0; mask-size: 100% 100%; mask-repeat: no-repeat; }
+    </style>
+</head>
+<body class="texture-paper">
+
+    <!-- Navigation (fixe — modifier directement dans le HTML) -->
+    <nav class="fixed w-full z-50 bg-[#F5F1E8]/95 backdrop-blur-sm border-b-4 border-[#8B2635]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-[#8B2635] rounded-full flex items-center justify-center text-white font-display text-xl border-2 border-[#2C241B]">A</div>
+                    <div>
+                        <span class="font-display text-2xl text-[#8B2635]">L'Auguste</span>
+                        <span class="block text-xs text-[#2C5F2D] font-bold tracking-widest uppercase">Recycleur</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#services" class="text-[#2C241B] hover:text-[#8B2635] font-medium transition">Nos Services</a>
+                    <a href="#engagements" class="text-[#2C241B] hover:text-[#8B2635] font-medium transition">Nos Engagements</a>
+                    <a href="#actualites" class="text-[#2C241B] hover:text-[#8B2635] font-medium transition">Actualités</a>
+                    <a href="#contact" class="btn-vintage px-6 py-2 rounded-none font-bold">Prendre RDV</a>
+                </div>
+                <button class="md:hidden text-[#8B2635]" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                    <i data-lucide="menu" class="w-8 h-8"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-[#F5F1E8] border-t-2 border-[#8B2635]">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#services" class="block px-3 py-2 text-[#2C241B] font-medium">Nos Services</a>
+                <a href="#engagements" class="block px-3 py-2 text-[#2C241B] font-medium">Nos Engagements</a>
+                <a href="#actualites" class="block px-3 py-2 text-[#2C241B] font-medium">Actualités</a>
+                <a href="#contact" class="block px-3 py-2 text-[#8B2635] font-bold">Prendre RDV Collecte</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+         HERO
+         Chiffres clés : édités via /admin → "Chiffres clés"
+    ============================================================ -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 halftone"></div>
+        <div class="absolute top-20 right-0 w-64 h-64 bg-[#8B2635] rounded-full opacity-10 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#2C5F2D] rounded-full opacity-10 blur-3xl"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="inline-block stamp text-sm mb-4">Association Loi 1901</div>
+                    <h1 class="font-display text-5xl lg:text-7xl text-[#2C241B] leading-tight">
+                        Donnez une <span class="text-[#8B2635] relative inline-block">
+                            seconde vie
+                            <svg class="absolute w-full h-3 -bottom-1 left-0 text-[#D4A574]" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="3" fill="none"/>
+                            </svg>
+                        </span> à vos objets
+                    </h1>
+                    <p class="text-xl text-[#2C241B]/80 max-w-lg leading-relaxed">
+                        Soutenez l'emploi local et l'économie circulaire à Périers-en-Auge.
+                        <span class="font-handwriting text-2xl text-[#8B2635]">Bâtisseur de projet profondément humain et solidaire.</span>
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="btn-vintage px-8 py-4 text-lg font-bold flex items-center justify-center gap-2">
+                            <i data-lucide="truck" class="w-5 h-5"></i> Prendre RDV Collecte
+                        </button>
+                        <button class="btn-vintage btn-secondary px-8 py-4 text-lg font-bold flex items-center justify-center gap-2">
+                            <i data-lucide="store" class="w-5 h-5"></i> Découvrir la Boutique
+                        </button>
+                    </div>
+
+                    <!-- Statistiques — injectées depuis content/stats.json -->
+                    <div class="flex gap-8 pt-4">
+                        <div class="text-center">
+                            <div class="font-display text-4xl text-[#8B2635]" data-stat="tonnes">–</div>
+                            <div class="text-sm text-[#2C241B]/70 uppercase tracking-wide">Tonnes récupérées</div>
+                        </div>
+                        <div class="w-px bg-[#2C241B]/20"></div>
+                        <div class="text-center">
+                            <div class="font-display text-4xl text-[#8B2635]" data-stat="personnes">–</div>
+                            <div class="text-sm text-[#2C241B]/70 uppercase tracking-wide">Personnes accompagnées</div>
+                        </div>
+                        <div class="w-px bg-[#2C241B]/20"></div>
+                        <div class="text-center">
+                            <div class="font-display text-4xl text-[#8B2635]" data-stat="taux_reemploi">–</div>
+                            <div class="text-sm text-[#2C241B]/70 uppercase tracking-wide">Réemployés</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="vintage-border bg-white p-4 rotate-2">
+                        <div class="aspect-[4/3] bg-[#D4A574]/20 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center text-[#8B2635]/30">
+                                <i data-lucide="image" class="w-24 h-24"></i>
+                            </div>
+                            <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 border-2 border-[#2C241B]">
+                                <span class="font-handwriting text-xl text-[#8B2635]">Notre façade colorée</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-[#2C5F2D] rounded-full flex items-center justify-center text-white border-4 border-[#2C241B] transform rotate-12 shadow-xl">
+                        <div class="text-center"><div class="font-display text-2xl">Ouvert</div><div class="text-xs">Mar-Sam</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services (contenu fixe — modifier directement dans le HTML) -->
+    <section id="services" class="py-20 bg-white relative">
+        <div class="absolute top-0 left-0 w-full h-4 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIxMCI+PHBhdGggZD0iTTAgMTAgTDEwIDAgTDIwIDEwIiBmaWxsPSIjRjVGMUU4Ii8+PC9zdmc+')]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="text-[#8B2635] font-bold tracking-widest uppercase text-sm">Nos Piliers</span>
+                <h2 class="font-display text-4xl lg:text-5xl text-[#2C241B] mt-2">Trois façons d'agir</h2>
+                <div class="w-24 h-1 bg-[#D4A574] mx-auto mt-4"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card p-8 scroll-reveal">
+                    <div class="w-16 h-16 bg-[#8B2635] rounded-full flex items-center justify-center text-white mb-6 border-2 border-[#2C241B]"><i data-lucide="shopping-bag" class="w-8 h-8"></i></div>
+                    <h3 class="font-display text-2xl text-[#2C241B] mb-4">La Boutique</h3>
+                    <p class="text-[#2C241B]/70 mb-6 leading-relaxed">Objets de seconde main triés, testés et réparés à petits prix. Venez chiner et faire des découvertes !</p>
+                    <ul class="space-y-2 mb-6 text-sm text-[#2C241B]/60">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#2C5F2D]"></i>Mobilier, déco, électroménager</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#2C5F2D]"></i>Livres, jouets, vélos</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#2C5F2D]"></i>Garantie 3 mois</li>
+                    </ul>
+                    <button class="w-full btn-vintage py-3 font-bold text-sm">Voir les Horaires</button>
+                </div>
+                <div class="service-card p-8 scroll-reveal" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 bg-[#2C5F2D] rounded-full flex items-center justify-center text-white mb-6 border-2 border-[#2C241B]"><i data-lucide="truck" class="w-8 h-8"></i></div>
+                    <h3 class="font-display text-2xl text-[#2C241B] mb-4">Collecte d'Encombrants</h3>
+                    <p class="text-[#2C241B]/70 mb-6 leading-relaxed">Service sur rendez-vous pour les particuliers de la Communauté de Communes Normandie Cabourg Pays d'Auge.</p>
+                    <div class="bg-[#F5F1E8] p-4 border-2 border-[#2C241B] mb-6">
+                        <div class="flex items-center gap-2 text-[#8B2635] font-bold"><i data-lucide="phone" class="w-4 h-4"></i>07 65 69 95 02</div>
+                        <p class="text-xs text-[#2C241B]/60 mt-1">Réponse sous 48h</p>
+                    </div>
+                    <button class="w-full btn-vintage py-3 font-bold text-sm">Réserver en Ligne</button>
+                </div>
+                <div class="service-card p-8 scroll-reveal" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 bg-[#D4A574] rounded-full flex items-center justify-center text-[#2C241B] mb-6 border-2 border-[#2C241B]"><i data-lucide="heart-handshake" class="w-8 h-8"></i></div>
+                    <h3 class="font-display text-2xl text-[#2C241B] mb-4">Don d'Objets</h3>
+                    <p class="text-[#2C241B]/70 mb-6 leading-relaxed">Déposez vos objets donnables et contribuez à l'économie circulaire. Chaque don finance la construction de Tiny Houses.</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 bg-[#2C5F2D] rounded-full"></span><span>Électroménager fonctionnel</span></div>
+                        <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 bg-[#2C5F2D] rounded-full"></span><span>Meubles en bon état</span></div>
+                        <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 bg-[#8B2635] rounded-full"></span><span class="line-through opacity-50">Matelas / Canapés lits</span></div>
+                    </div>
+                    <button class="w-full btn-vintage btn-secondary py-3 font-bold text-sm">Guide des Dons</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Engagements (contenu fixe) -->
+    <section id="engagements" class="py-20 bg-[#2C241B] text-[#F5F1E8] relative overflow-hidden">
+        <div class="absolute inset-0 halftone opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="text-[#D4A574] font-bold tracking-widest uppercase text-sm">Nos Différences</span>
+                <h2 class="font-display text-4xl lg:text-5xl mt-2">Nos Engagements</h2>
+                <div class="w-24 h-1 bg-[#8B2635] mx-auto mt-4"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 border-2 border-[#D4A574]/30 scroll-reveal">
+                    <div class="w-20 h-20 mx-auto mb-6 relative">
+                        <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#2C241B" stroke-width="8"/>
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#2C5F2D" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="22" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center font-display text-2xl text-[#2C5F2D]">92%</div>
+                    </div>
+                    <h3 class="font-display text-xl mb-3 text-[#D4A574]">Zéro Déchet</h3>
+                    <p class="text-[#F5F1E8]/70 text-sm leading-relaxed">92% des objets récupérés sont réemployés, réutilisés ou recyclés. Seulement 8% partent en déchetterie.</p>
+                </div>
+                <div class="text-center p-8 border-2 border-[#D4A574]/30 scroll-reveal" style="transition-delay: 100ms;">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-[#8B2635] rounded-full flex items-center justify-center border-2 border-[#D4A574]"><i data-lucide="users" class="w-10 h-10 text-[#F5F1E8]"></i></div>
+                    <h3 class="font-display text-xl mb-3 text-[#D4A574]">Insertion Professionnelle</h3>
+                    <p class="text-[#F5F1E8]/70 text-sm leading-relaxed">Parcours d'accompagnement vers l'emploi pour personnes en difficulté. Formation, mentorat et suivi personnalisé.</p>
+                </div>
+                <div class="text-center p-8 border-2 border-[#D4A574]/30 scroll-reveal" style="transition-delay: 200ms;">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-[#D4A574] rounded-full flex items-center justify-center border-2 border-[#2C241B]"><i data-lucide="map-pin" class="w-10 h-10 text-[#2C241B]"></i></div>
+                    <h3 class="font-display text-xl mb-3 text-[#D4A574]">Circuit Court</h3>
+                    <p class="text-[#F5F1E8]/70 text-sm leading-relaxed">Réduction des déchets sur le territoire de la NCPA. Moins de transport, plus d'impact local positif.</p>
+                </div>
+            </div>
+            <div class="mt-16 text-center">
+                <div class="inline-block ticket px-8 py-6 bg-white text-[#2C241B]">
+                    <p class="font-handwriting text-2xl text-[#8B2635] mb-2">Reconnue d'Intérêt Général</p>
+                    <p class="text-sm uppercase tracking-widest">But Non Lucratif</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         VITRINE DU MOIS
+         Articles injectés depuis content/vitrine/*.json via /admin
+    ============================================================ -->
+    <section class="py-20 bg-[#F5F1E8]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 scroll-reveal">
+                <div>
+                    <span class="text-[#8B2635] font-bold tracking-widest uppercase text-sm">Coup de Cœur</span>
+                    <h2 class="font-display text-4xl text-[#2C241B] mt-2">La Vitrine du Mois</h2>
+                </div>
+                <a href="#" class="text-[#8B2635] font-bold flex items-center gap-2 mt-4 md:mt-0 hover:underline">
+                    Voir toute la boutique <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+            <!-- Rempli automatiquement par le JS -->
+            <div id="vitrine-grid" class="grid md:grid-cols-4 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         ACTUALITÉS
+         Articles injectés depuis content/actualites/*.json via /admin
+    ============================================================ -->
+    <section id="actualites" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="text-[#8B2635] font-bold tracking-widest uppercase text-sm">Vie Associative</span>
+                <h2 class="font-display text-4xl lg:text-5xl text-[#2C241B] mt-2">Actualités & Événements</h2>
+            </div>
+            <!-- Rempli automatiquement par le JS -->
+            <div id="actualites-liste" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- Simulateur de Dons (contenu fixe) -->
+    <section class="py-20 bg-[#8B2635] text-white relative overflow-hidden">
+        <div class="absolute inset-0 halftone opacity-10"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-12 scroll-reveal">
+                <h2 class="font-display text-4xl mb-4">Simulateur de Dons</h2>
+                <p class="text-white/80">Puis-je donner mon objet ? Vérifiez en quelques clics.</p>
+            </div>
+            <div class="bg-[#F5F1E8] text-[#2C241B] p-8 vintage-border scroll-reveal">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="block font-bold mb-2">Type d'objet</label>
+                        <select class="w-full p-3 border-2 border-[#2C241B] bg-white focus:outline-none focus:border-[#8B2635]">
+                            <option>Électroménager</option><option>Meuble</option><option>Vélo</option>
+                            <option>Livres / Médias</option><option>Décoration</option><option>Autre</option>
+                        </select>
+                        <label class="block font-bold mb-2 mt-4">État général</label>
+                        <div class="flex gap-2">
+                            <button class="flex-1 py-2 border-2 border-[#2C241B] hover:bg-[#2C5F2D] hover:text-white transition text-sm font-bold">Bon</button>
+                            <button class="flex-1 py-2 border-2 border-[#2C241B] hover:bg-[#2C5F2D] hover:text-white transition text-sm font-bold">À réparer</button>
+                            <button class="flex-1 py-2 border-2 border-[#2C241B] hover:bg-[#8B2635] hover:text-white transition text-sm font-bold">Hors service</button>
+                        </div>
+                    </div>
+                    <div class="bg-[#2C5F2D]/10 p-6 border-2 border-[#2C5F2D] flex flex-col justify-center items-center text-center">
+                        <i data-lucide="check-circle" class="w-16 h-16 text-[#2C5F2D] mb-4"></i>
+                        <h3 class="font-display text-2xl text-[#2C5F2D] mb-2">Oui, on prend !</h3>
+                        <p class="text-sm text-[#2C241B]/70 mb-4">Votre objet peut être réemployé. Impact estimé : <span class="font-bold text-[#2C5F2D]">12 kg CO2 évité</span></p>
+                        <button class="btn-vintage bg-[#2C5F2D] text-sm">Planifier un dépôt</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact (contenu fixe) -->
+    <section id="contact" class="py-20 bg-[#F5F1E8]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="scroll-reveal">
+                    <span class="text-[#8B2635] font-bold tracking-widest uppercase text-sm">Contact</span>
+                    <h2 class="font-display text-4xl text-[#2C241B] mt-2 mb-6">Prendre Rendez-vous</h2>
+                    <p class="text-[#2C241B]/70 mb-8 leading-relaxed">Pour une collecte d'encombrants à domicile sur la Communauté de Communes Normandie Cabourg Pays d'Auge. Réponse sous 48h ouvrées.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-[#8B2635] rounded-full flex items-center justify-center text-white shrink-0"><i data-lucide="map-pin" class="w-6 h-6"></i></div>
+                            <div><h4 class="font-bold text-[#2C241B]">Adresse</h4><p class="text-[#2C241B]/70">Périers-en-Auge<br>14160 Dives-sur-Mer</p></div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-[#8B2635] rounded-full flex items-center justify-center text-white shrink-0"><i data-lucide="clock" class="w-6 h-6"></i></div>
+                            <div><h4 class="font-bold text-[#2C241B]">Horaires d'ouverture</h4><p class="text-[#2C241B]/70">Mardi - Samedi : 10h - 12h / 14h - 18h<br>Dimanche - Lundi : Fermé</p></div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-[#8B2635] rounded-full flex items-center justify-center text-white shrink-0"><i data-lucide="phone" class="w-6 h-6"></i></div>
+                            <div><h4 class="font-bold text-[#2C241B]">Téléphone</h4><p class="text-[#2C241B]/70 font-display text-xl">07 65 69 95 02</p></div>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 mt-8">
+                        <a href="#" class="w-12 h-12 bg-[#1877F2] rounded-full flex items-center justify-center text-white hover:scale-110 transition"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                        <a href="#" class="w-12 h-12 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 rounded-full flex items-center justify-center text-white hover:scale-110 transition"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                        <a href="#" class="w-12 h-12 bg-[#8B2635] rounded-full flex items-center justify-center text-white hover:scale-110 transition"><i data-lucide="mail" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+                <div class="vintage-border bg-white p-8 scroll-reveal">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div><label class="block font-bold mb-2 text-sm">Prénom</label><input type="text" class="w-full p-3 border-2 border-[#2C241B] bg-[#F5F1E8] focus:outline-none focus:border-[#8B2635]" placeholder="Jean"></div>
+                            <div><label class="block font-bold mb-2 text-sm">Nom</label><input type="text" class="w-full p-3 border-2 border-[#2C241B] bg-[#F5F1E8] focus:outline-none focus:border-[#8B2635]" placeholder="Dupont"></div>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-2 text-sm">Commune</label>
+                            <select class="w-full p-3 border-2 border-[#2C241B] bg-[#F5F1E8] focus:outline-none focus:border-[#8B2635]">
+                                <option>Sélectionnez votre commune (NCPA)</option>
+                                <option>Périers-en-Auge</option><option>Dives-sur-Mer</option>
+                                <option>Cabourg</option><option>Houlgate</option>
+                                <option>Beuvron-en-Auge</option><option>Autre commune NCPA</option>
+                            </select>
+                        </div>
+                        <div><label class="block font-bold mb-2 text-sm">Type d'encombrants</label><textarea class="w-full p-3 border-2 border-[#2C241B] bg-[#F5F1E8] focus:outline-none focus:border-[#8B2635] h-32" placeholder="Décrivez les objets à collecter (meubles, électroménager, etc.)"></textarea></div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="photos" class="w-5 h-5 border-2 border-[#2C241B]">
+                            <label for="photos" class="text-sm text-[#2C241B]/70">Je joins des photos des objets (recommandé)</label>
+                        </div>
+                        <button type="submit" class="w-full btn-vintage py-4 text-lg font-bold">Demander un RDV</button>
+                        <p class="text-xs text-[#2C241B]/50 text-center">En soumettant ce formulaire, vous acceptez d'être recontacté par téléphone ou email.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (contenu fixe) -->
+    <footer class="bg-[#2C241B] text-[#F5F1E8] py-12 border-t-4 border-[#8B2635]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-[#8B2635] rounded-full flex items-center justify-center text-white font-display border-2 border-[#F5F1E8]">A</div>
+                        <span class="font-display text-xl">L'Auguste Recycleur</span>
+                    </div>
+                    <p class="text-[#F5F1E8]/60 text-sm leading-relaxed">Association loi 1901 à but non lucratif. Reconnue d'intérêt général.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-[#D4A574]">Navigation</h4>
+                    <ul class="space-y-2 text-sm text-[#F5F1E8]/70">
+                        <li><a href="#" class="hover:text-white transition">La Boutique</a></li>
+                        <li><a href="#" class="hover:text-white transition">Collecte d'encombrants</a></li>
+                        <li><a href="#" class="hover:text-white transition">Faire un don</a></li>
+                        <li><a href="#" class="hover:text-white transition">Devenir bénévole</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-[#D4A574]">Informations</h4>
+                    <ul class="space-y-2 text-sm text-[#F5F1E8]/70">
+                        <li><a href="#" class="hover:text-white transition">Mentions légales</a></li>
+                        <li><a href="#" class="hover:text-white transition">Politique de confidentialité</a></li>
+                        <li><a href="#" class="hover:text-white transition">Presse</a></li>
+                        <li><a href="#" class="hover:text-white transition">Espace entreprises</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-[#D4A574]">Newsletter</h4>
+                    <p class="text-sm text-[#F5F1E8]/60 mb-4">Recevez nos actualités et coups de cœur.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Votre email" class="flex-1 p-2 bg-[#F5F1E8]/10 border-2 border-[#F5F1E8]/20 text-white placeholder-[#F5F1E8]/40 focus:outline-none focus:border-[#8B2635]">
+                        <button class="bg-[#8B2635] px-4 py-2 border-2 border-l-0 border-[#8B2635] hover:bg-[#8B2635]/80 transition"><i data-lucide="send" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-[#F5F1E8]/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-[#F5F1E8]/40">© 2024 L'Auguste Recycleur. Tous droits réservés.</p>
+                <div class="flex items-center gap-2 text-sm text-[#F5F1E8]/40">
+                    <span>Made with</span><i data-lucide="heart" class="w-4 h-4 text-[#8B2635] fill-current"></i><span>à Périers-en-Auge</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ── Lucide icons ─────────────────────────────────────────
+        lucide.createIcons();
+
+        // ── Scroll reveal ────────────────────────────────────────
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // ── Smooth scroll ────────────────────────────────────────
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // ── 1. STATISTIQUES ──────────────────────────────────────
+        // Lit content/stats.json et remplace les –  par les vraies valeurs
+        fetch('content/stats.json')
+            .then(r => r.json())
+            .then(stats => {
+                document.querySelectorAll('[data-stat]').forEach(el => {
+                    const cle = el.getAttribute('data-stat');
+                    if (stats[cle] !== undefined) el.textContent = stats[cle];
+                });
+            });
+
+        // ── 2. VITRINE DU MOIS ───────────────────────────────────
+        // Liste les fichiers JSON dans content/vitrine/ via l'index
+        const vitrineItems = [
+            'content/vitrine/fauteuil-vintage.json',
+            'content/vitrine/radio-bakelite.json',
+            'content/vitrine/velo-ville.json',
+            'content/vitrine/lampe-industrielle.json'
+        ];
+        // Note : cet index est mis à jour automatiquement par Decap CMS
+
+        Promise.all(vitrineItems.map(f => fetch(f).then(r => r.json())))
+            .then(articles => {
+                const grid = document.getElementById('vitrine-grid');
+                grid.innerHTML = '';
+                articles.forEach((a, i) => {
+                    const delay = i * 100;
+                    const badgeHtml = a.badge
+                        ? `<div class="absolute top-2 right-2 ${a.couleur_badge} text-white text-xs font-bold px-2 py-1 transform rotate-3">${a.badge}</div>`
+                        : '';
+                    const imgHtml = a.image
+                        ? `<img src="${a.image}" alt="${a.titre}" class="w-full h-full object-cover">`
+                        : `<div class="absolute inset-0 flex items-center justify-center text-[#8B2635]/30"><i data-lucide="${a.icone || 'package'}" class="w-16 h-16"></i></div>`;
+                    grid.innerHTML += `
+                        <div class="vintage-border bg-white p-3 scroll-reveal group cursor-pointer" style="transition-delay:${delay}ms">
+                            <div class="aspect-square bg-[#D4A574]/20 relative overflow-hidden mb-3">
+                                ${imgHtml}${badgeHtml}
+                            </div>
+                            <h4 class="font-bold text-[#2C241B]">${a.titre}</h4>
+                            <p class="text-[#8B2635] font-display text-xl">${a.prix}</p>
+                            <p class="text-xs text-[#2C241B]/50">${a.description}</p>
+                        </div>`;
+                });
+                lucide.createIcons(); // réinitialise les icônes injectées
+                grid.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+            });
+
+        // ── 3. ACTUALITÉS ────────────────────────────────────────
+        const actualiteItems = [
+            'content/actualites/atelier-reparation.json',
+            'content/actualites/collecte-solidaire.json',
+            'content/actualites/projet-tiny-house.json'
+        ];
+
+        Promise.all(actualiteItems.map(f => fetch(f).then(r => r.json())))
+            .then(actus => {
+                const liste = document.getElementById('actualites-liste');
+                liste.innerHTML = '';
+                actus.forEach((a, i) => {
+                    const delay = i * 100;
+                    liste.innerHTML += `
+                        <article class="vintage-border bg-[#F5F1E8] overflow-hidden scroll-reveal" style="transition-delay:${delay}ms">
+                            <div class="h-48 bg-[#8B2635]/10 relative">
+                                <div class="absolute top-4 left-4 ${a.couleur_badge} text-white px-3 py-1 text-sm font-bold">${a.date}</div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-display text-xl text-[#2C241B] mb-2">${a.titre}</h3>
+                                <p class="text-[#2C241B]/70 text-sm mb-4">${a.texte}</p>
+                                <a href="${a.lien}" class="text-[#8B2635] font-bold text-sm flex items-center gap-1 hover:underline">
+                                    ${a.lien_texte} <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </article>`;
+                });
+                lucide.createIcons();
+                liste.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+# ================================================================
+# CONFIGURATION DECAP CMS — L'Auguste Recycleur
+# Compatible GitHub Pages (sans Netlify)
+# ================================================================
+#
+# AVANT DE DÉPLOYER : remplacer les 2 lignes marquées "← à remplacer"
+#
+# Étapes :
+#  1. GitHub → Settings → Developer Settings → OAuth Apps → New OAuth App
+#     Homepage URL     : https://TON-PSEUDO.github.io/TON-REPO
+#     Callback URL     : https://TON-PSEUDO.github.io/TON-REPO/admin
+#  2. Copier le Client ID fourni par GitHub
+#  3. Remplacer les deux valeurs ci-dessous
+
+backend:
+  name: github
+  repo: TON-PSEUDO/TON-REPO          # ← à remplacer  ex: jean-dupont/auguste-recycleur
+  branch: main
+  auth_type: pkce
+  app_id: TON-CLIENT-ID-GITHUB       # ← à remplacer  ex: Ov23liABCDEF123456
+
+media_folder: "images"
+public_folder: "/images"
+
+# ================================================================
+# CE QUI EST ÉDITABLE DEPUIS /admin
+# ================================================================
+
+collections:
+
+  # ── Chiffres clés (hero) ─────────────────────────────────────
+  - name: "stats"
+    label: "Chiffres clés"
+    files:
+      - name: "stats"
+        label: "Statistiques du site"
+        file: "content/stats.json"
+        format: json
+        fields:
+          - { label: "Tonnes récupérées",     name: tonnes,        widget: string, hint: "Ex: 156" }
+          - { label: "Personnes accompagnées", name: personnes,     widget: string, hint: "Ex: 23" }
+          - { label: "Taux de réemploi",       name: taux_reemploi, widget: string, hint: "Ex: 92% (avec le symbole %)" }
+
+  # ── Actualités & Événements ──────────────────────────────────
+  - name: "actualites"
+    label: "Actualités & Événements"
+    folder: "content/actualites"
+    format: json
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Date ou statut",    name: date,          widget: string, hint: "Ex: 15 Mars  ou  En cours" }
+      - { label: "Couleur du badge",  name: couleur_badge, widget: string, hint: "Ex: bg-[#8B2635]  (rouge) ou bg-[#2C5F2D] (vert) ou bg-[#D4A574] text-[#2C241B] (beige)" }
+      - { label: "Titre",             name: titre,         widget: string }
+      - { label: "Texte",             name: texte,         widget: text }
+      - { label: "Texte du bouton",   name: lien_texte,    widget: string, hint: "Ex: S'inscrire" }
+      - { label: "Lien du bouton",    name: lien,          widget: string, default: "#" }
+
+  # ── Vitrine du mois ──────────────────────────────────────────
+  - name: "vitrine"
+    label: "Vitrine du mois"
+    folder: "content/vitrine"
+    format: json
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre de l'article", name: titre,         widget: string }
+      - { label: "Prix",               name: prix,          widget: string,  hint: "Ex: 45 €" }
+      - { label: "Badge (optionnel)",  name: badge,         widget: string,  required: false, hint: "Ex: -40%  ou  NEUF  (laisser vide si aucun)" }
+      - { label: "Couleur du badge",   name: couleur_badge, widget: string,  required: false, hint: "Ex: bg-[#8B2635] pour rouge, bg-[#2C5F2D] pour vert" }
+      - { label: "Description courte", name: description,   widget: string,  hint: "Ex: Rénové par nos soins" }
+      - { label: "Photo",              name: image,         widget: image,   required: false }
+      - { label: "Icône de remplacement (si pas de photo)", name: icone, widget: string, required: false, hint: "Ex: armchair, bike, lamp, tv" }

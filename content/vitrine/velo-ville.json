@@ -1,0 +1,9 @@
+{
+  "titre": "Vélo de Ville",
+  "prix": "85 €",
+  "badge": "NEUF",
+  "couleur_badge": "bg-[#2C5F2D]",
+  "description": "Remis à neuf, freins neufs",
+  "image": "/images/velo-ville.jpg",
+  "icone": "bike"
+}
