@@ -3,24 +3,22 @@
 # Compatible GitHub Pages (sans Netlify)
 # ================================================================
 #
-# AVANT DE DÉPLOYER : remplacer les 2 lignes marquées "← à remplacer"
-#
-# Étapes :
-#  1. GitHub → Settings → Developer Settings → OAuth Apps → New OAuth App
-#     Homepage URL     : https://TON-PSEUDO.github.io/TON-REPO
-#     Callback URL     : https://TON-PSEUDO.github.io/TON-REPO/admin
-#  2. Copier le Client ID fourni par GitHub
-#  3. Remplacer les deux valeurs ci-dessous
+# Prérequis (à faire une seule fois si pas encore fait) :
+#  1. Activer GitHub Pages : Settings → Pages → Source : branche main, dossier /
+#  2. Vérifier l'OAuth App GitHub (Developer Settings → OAuth Apps) :
+#     Homepage URL     : https://yvesmarti.github.io/Auguste
+#     Callback URL     : https://yvesmarti.github.io/Auguste/admin/
+#  3. Vérifier que le Client ID correspond à : Ov23liBEiiTjC7vOPyXs
 
 backend:
   name: github
-  repo: yvesmarti/Auguste          # ← à remplacer  ex: jean-dupont/auguste-recycleur
+  repo: yvesmarti/Auguste
   branch: main
   auth_type: pkce
-  app_id: Ov23liBEiiTjC7vOPyXs       # ← à remplacer  ex: Ov23liABCDEF123456
+  app_id: Ov23liBEiiTjC7vOPyXs
 
 media_folder: "images"
-public_folder: "/images"
+public_folder: "images"
 
 # ================================================================
 # CE QUI EST ÉDITABLE DEPUIS /admin
