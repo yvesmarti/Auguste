@@ -14,10 +14,10 @@
 
 backend:
   name: github
-  repo: TON-PSEUDO/TON-REPO          # ← à remplacer  ex: jean-dupont/auguste-recycleur
+  repo: yvesmarti/Auguste          # ← à remplacer  ex: jean-dupont/auguste-recycleur
   branch: main
   auth_type: pkce
-  app_id: TON-CLIENT-ID-GITHUB       # ← à remplacer  ex: Ov23liABCDEF123456
+  app_id: Ov23liBEiiTjC7vOPyXs       # ← à remplacer  ex: Ov23liABCDEF123456
 
 media_folder: "images"
 public_folder: "/images"
